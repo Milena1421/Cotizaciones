@@ -1,0 +1,50 @@
+{
+  "entities": {
+    "Quote": {
+      "title": "Cotización",
+      "description": "Información detallada de una cotización generada.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "type": { "type": "string", "enum": ["boomc", "cursos", "crea academia"] },
+        "modality": { "type": "string", "enum": ["presencial", "virtual"] },
+        "userVolume": { "type": "string", "enum": ["<50", ">50"] },
+        "location": { "type": "string", "enum": ["metropolitana", "fuera"] },
+        "platform": { "type": "string", "enum": ["google", "microsoft"] },
+        "clientName": { "type": "string" },
+        "clientEmail": { "type": "string", "format": "email" },
+        "clientPhone": { "type": "string" },
+        "ownerId": { "type": "string" },
+        "status": { "type": "string", "enum": ["pendiente", "enviada", "aceptada", "rechazada"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["type", "modality", "userVolume", "location", "platform", "clientName", "clientEmail", "clientPhone", "status", "createdAt", "ownerId"]
+    },
+    "Opportunity": {
+      "title": "Oportunidad Comercial",
+      "description": "Seguimiento de una cotización enviada.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "quoteId": { "type": "string" },
+        "ownerId": { "type": "string" },
+        "status": { "type": "string", "enum": ["seguimiento", "ganada", "perdida"] },
+        "lastContactAt": { "type": "string", "format": "date-time" },
+        "nextFollowUpAt": { "type": "string", "format": "date-time" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["quoteId", "status", "createdAt", "ownerId"]
+    }
+  },
+  "firestore": {
+    "/quotes/{quoteId}": {
+      "schema": "Quote",
+      "description": "Colección de cotizaciones."
+    },
+    "/opportunities/{opportunityId}": {
+      "schema": "Opportunity",
+      "description": "Colección de oportunidades vinculadas a cotizaciones."
+    }
+  }
+}
